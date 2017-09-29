@@ -11,22 +11,45 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.8</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <project.encoding>UTF-8</project.encoding>
+
+        <lombok.ver>1.16.18</lombok.ver>
+        <metainf-services.ver>1.1</metainf-services.ver>
+        <junit.ver>4.12</junit.ver>
     </properties>
 
     <dependencies>
-        <dependency>
+        <!-- dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>0.9.3</version>
+            <version>${lombok.ver}</version>
+            <scope>test</scope>
+        </dependency -->
+
+        <!-- Lombok with *.class files -->
+        <dependency>
+            <groupId>net.jzaruba</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.ver}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+
+        <!-- dependency>
             <groupId>org.mangosdk.spi</groupId>
             <artifactId>spi</artifactId>
             <version>0.2.7-SNAPSHOT</version>
+        </dependency -->
+
+        <dependency>
+            <groupId>org.kohsuke.metainf-services</groupId>
+            <artifactId>metainf-services</artifactId>
+            <version>${metainf-services.ver}</version>
+            <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>eclipse</groupId>
             <artifactId>jdtcore</artifactId>
@@ -36,18 +59,17 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.ver}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.sun</groupId>
             <artifactId>tools</artifactId>
-            <version>1.6</version>
+            <version>1.8</version>
             <scope>system</scope>
-            <systemPath>${tools-jar}</systemPath>
+            <systemPath>${java.home}/../lib/tools.jar</systemPath>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -55,7 +77,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.0</version>
+                <version>3.7.0</version>
+
                 <configuration>
                     <encoding>${project.encoding}</encoding>
                     <source>${jdk.version}</source>
@@ -68,15 +91,16 @@
     <profiles>
         <profile>
             <id>standard-jdk</id>
+
             <activation>
                 <file>
                     <exists>${java.home}/../lib/tools.jar</exists>
                 </file>
             </activation>
+
             <properties>
                 <tools-jar>${java.home}/../lib/tools.jar</tools-jar>
             </properties>
         </profile>
     </profiles>
-
 </project>

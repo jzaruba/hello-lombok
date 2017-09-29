@@ -8,32 +8,29 @@ import lombok.eclipse.EclipseNode;
 import org.eclipse.jdt.internal.compiler.ast.*;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileConstants;
 import org.eclipse.jdt.internal.compiler.lookup.TypeBinding;
-import org.mangosdk.spi.ProviderFor;
+import org.kohsuke.MetaInfServices;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 import static lombok.eclipse.Eclipse.ECLIPSE_DO_NOT_TOUCH_FLAG;
 
-@ProviderFor(EclipseAnnotationHandler.class)
-public class HandleHelloWorld implements EclipseAnnotationHandler<HelloWorld> {
+@MetaInfServices(EclipseAnnotationHandler.class)
+public class HandleHelloWorld extends EclipseAnnotationHandler<HelloWorld> {
 
 	@Override
-	public boolean handle(AnnotationValues<HelloWorld> annotation, Annotation ast,
+	public void handle(AnnotationValues<HelloWorld> annotation, Annotation ast,
 			EclipseNode annotationNode) {
 		EclipseNode typeNode = annotationNode.up();
 
 		if(notAClass(typeNode)) {
 			annotationNode.addError("@HelloWorld is only supported on a class.");
-			return false;
 		}
 		
 		MethodDeclaration helloWorldMethod = 
 			createHelloWorld(typeNode, annotationNode, annotationNode.get(), ast);
 		
 		EclipseHandlerUtil.injectMethod(typeNode, helloWorldMethod);
-		
-		return true;
 	}
 
 	private boolean notAClass(EclipseNode typeNode) {
@@ -48,7 +45,7 @@ public class HandleHelloWorld implements EclipseAnnotationHandler<HelloWorld> {
 		TypeDeclaration typeDecl = (TypeDeclaration) typeNode.get();
 
 		MethodDeclaration method = new MethodDeclaration(typeDecl.compilationResult);
-		Eclipse.setGeneratedBy(method, astNode);
+		EclipseHandlerUtil.setGeneratedBy(method, astNode);
 		method.annotations = null;
 		method.modifiers = Modifier.PUBLIC;
 		method.typeParameters = null;
@@ -68,7 +65,7 @@ public class HandleHelloWorld implements EclipseAnnotationHandler<HelloWorld> {
 		printlnInvocation.arguments = printlnArguments;
 		printlnInvocation.receiver = systemOutReference;
 		printlnInvocation.selector = "println".toCharArray();
-		Eclipse.setGeneratedBy(printlnInvocation, source);
+		EclipseHandlerUtil.setGeneratedBy(printlnInvocation, source);
 		
 		method.bodyStart = method.declarationSourceStart = method.sourceStart = astNode.sourceStart;
 		method.bodyEnd = method.declarationSourceEnd = method.sourceEnd = astNode.sourceEnd;
@@ -87,7 +84,7 @@ public class HandleHelloWorld implements EclipseAnnotationHandler<HelloWorld> {
         QualifiedNameReference nameReference = new QualifiedNameReference(nameTokens, pos, pS, pE);
         nameReference.statementEnd = pE;
 
-        Eclipse.setGeneratedBy(nameReference, source);
+		EclipseHandlerUtil.setGeneratedBy(nameReference, source);
         return nameReference;
     }
 
