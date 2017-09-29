@@ -38,7 +38,8 @@ Build the Lombok-extension out of our project:
 ``mvn clean package -Dmaven.test.skip=true``
 
 Rename *.class files to *.SCL.lombok:  
-``rnm target\hello-lombok-1.0-SNAPSHOT.jar .class .SCL.lombok``
+``rnm target\hello-lombok-1.0-SNAPSHOT.jar .class .SCL.lombok``  
+TODO: Files directly under/in the 'lombok' package need to be excluded from this renaming!
 
 (At this point the Lombok-extension related files in your project could not *NOT* compile anymore, 
 because Idea does not recognize the .SCL.lombok suffix in the Lombok dependency.)
