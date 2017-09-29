@@ -1,11 +1,14 @@
- 0) rename files on original JAR
+### How to make this work: ###
+ 0) rename files in the original JAR
  0) use the updated JAR as dependency
  0) do the coding
  0) build the extension
  0) rename the files in it
  0) merge the extension with the original
  0) install the updated library
- 0) run tests
+ 0) run your tests
+
+### Let's do it ###
 
 In new Lombok the bytecode is delivered in files with *.SCL.lombok suffix, 
 instead of the usual *.class.
