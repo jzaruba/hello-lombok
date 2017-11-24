@@ -30,7 +30,7 @@ Install the fixed Lombok JAR so you can use it as dependency in Idea:
 Update/refresh the dependency so Idea can see the *.class files.
 
 The Lombok-extension related files in your project will now successfully compile.  
-Tests won't be able to ass though, because the dependency does not contain our new classes yet.
+Tests won't be able to pass though, because the dependency does not contain our new classes yet.
 
 &lt;Add whatever you want to extend Lombok with.&gt;
 
