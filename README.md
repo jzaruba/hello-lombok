@@ -11,12 +11,14 @@
 ### Let's do it ###
 
 In new Lombok the bytecode is delivered in files with *.SCL.lombok suffix, 
-instead of the usual *.class.
+instead of the usual *.class. 
+This also means you can't depend on classes obscured that way, which further complicates 
+extending Lombok.
 
 Rename *.SCL.lombok files in the JAR to *.class:
 ```
-rnm lombok-1.16.18.jar .lombok .
-rnm lombok-1.16.18~.jar .SCL .class
+rnm lombok-1.16.18.jar *.lombok .
+rnm lombok-1.16.18~.jar *.SCL .class
 ```
 
 Install the fixed Lombok JAR so you can use it as dependency in Idea:  
@@ -38,8 +40,8 @@ Build the Lombok-extension out of our project:
 ``mvn clean package -Dmaven.test.skip=true``
 
 Rename *.class files to *.SCL.lombok:  
-``rnm target\hello-lombok-1.0-SNAPSHOT.jar .class .SCL.lombok``  
-TODO: Files directly under/in the 'lombok' package need to be excluded from this renaming!
+``rnm target\hello-lombok-1.0-SNAPSHOT.jar lombok\*.class .SCL.lombok``  
+TODO: Files directly under/in the 'lombok' package need to be excluded from renaming!
 
 (At this point the Lombok-extension related files in your project could not *NOT* compile anymore, 
 because Idea does not recognize the .SCL.lombok suffix in the Lombok dependency.)
@@ -59,4 +61,6 @@ Run the tests:
 ``mvn test``
 
 One day this will be a bit simpler maybe:  
-https://stackoverflow.com/questions/35550460/writing-custom-lombok-annotation-handlers
+ - https://stackoverflow.com/questions/35550460/writing-custom-lombok-annotation-handlers
+ - https://github.com/rzwitserloot/lombok/pull/1296
+ 
